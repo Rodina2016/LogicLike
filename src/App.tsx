@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import useFetchCourses, {CourseType} from './hooks/useFetchCourses';
 import CourseList from './components/courseList/CourseList';
@@ -10,34 +10,24 @@ const queryClient = new QueryClient();
 const App: React.FC = () => {
     const { data = [], isLoading, error } = useFetchCourses();
 
-    const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
-    const [tags, setTags] = useState<string[]>([]);
     const [selectedTag, setSelectedTag] = useState<string>('Все темы');
 
+    const filteredCourses = useMemo(() => {
+        if (selectedTag === 'Все темы') return data;
+        return data.filter(course => course.tags.includes(selectedTag));
+    }, [data, selectedTag]);
 
-    useEffect(() => {
-        const newFilteredCourses = data;
-        if (JSON.stringify(filteredCourses) !== JSON.stringify(data)) {
+    const tags = useMemo(() => {
+        const allTags = Array.from(new Set(data.flatMap((course: CourseType) => course.tags)));
+        return ['Все темы', ...allTags];
+    }, [data]);
 
-            if (filteredCourses !== newFilteredCourses) setFilteredCourses(newFilteredCourses);
+    const handleTagToggle = useCallback((tag: string) => {
+        setSelectedTag(tag);
+    }, []);
 
-            const allTags = Array.from(new Set(data.flatMap((course: CourseType) => course.tags)));
-            setTags(['Все темы', ...allTags]);
-        }
-    },[data])
-
-  const handleTagToggle = useCallback((tag: string) => {
-      setSelectedTag(tag);
-
-      if (tag === "Все темы") {
-          setFilteredCourses(data)
-      } else {
-          setFilteredCourses(data.filter(course => course.tags.includes(tag)));
-      }
-  }, [data])
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>{error.message}</p>;
 
   return (
       <div className={styles.app}>
