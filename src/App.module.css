@@ -1,0 +1,23 @@
+@import 'normalize.css';
+
+:root {
+    --primary-color: #5FBF77;
+    --secondary-color: #CFCFE4;
+    --white-color: #FFFFFF;
+    --background-color: #ecf0f1;
+    --text-color: #39414B;
+}
+
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.app {
+    display: flex;
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+}

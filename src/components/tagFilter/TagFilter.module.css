@@ -1,0 +1,32 @@
+.tagWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 8px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 18px;
+}
+
+.tagFilter {
+    width: 264px;
+    margin-right: 24px;
+}
+
+.tagBtn {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Nunito', sans-serif;
+    line-height: 18px;
+    color: var(--text-color);
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.tagBtn.active {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-radius: 12px;
+}

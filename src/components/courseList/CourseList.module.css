@@ -1,0 +1,34 @@
+.courseList {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-self: flex-start;
+    gap: 18px;
+}
+
+.course {
+    flex: 1 1 calc(33.333% - 18px);
+    max-width: calc(33.333% - 18px);
+    box-sizing: border-box;
+    border-radius: 18px;
+    box-shadow: 0 10px 13px -4px #23235F30;
+    text-align: center;
+    background-color: var(--white-color);
+    overflow: hidden;
+}
+
+.heading {
+    text-align: left;
+    padding: 12px 18px 18px;
+    margin: 0;
+}
+
+.imgWrap {
+    max-height: 162px;
+    padding: 9px 16px 9px 17px;
+}
+
+.img {
+    max-width: 162px;
+}
