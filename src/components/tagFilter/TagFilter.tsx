@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import styles from './TagFilter.module.css';
 
 interface TagFilterProps {
@@ -25,4 +25,4 @@ const TagFilter: React.FC<TagFilterProps> = ({ tags, selectedTag, onTagSelect })
     );
 };
 
-export default TagFilter;
+export default memo(TagFilter);

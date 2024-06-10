@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import useFetchCourses, {CourseType} from './hooks/useFetchCourses';
 import CourseList from './components/courseList/CourseList';
@@ -10,27 +10,31 @@ const queryClient = new QueryClient();
 const App: React.FC = () => {
     const { data = [], isLoading, error } = useFetchCourses();
 
-    const [courses, setCourses] = useState<CourseType[]>([]);
     const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
     const [tags, setTags] = useState<string[]>([]);
     const [selectedTag, setSelectedTag] = useState<string>('Все темы');
 
 
     useEffect(() => {
-        setCourses(data);
-        setFilteredCourses(data);
-        const allTags = Array.from(new Set(data.flatMap((course: CourseType) => course.tags)));
-        setTags(['Все темы', ...allTags]);
+        const newFilteredCourses = data;
+        if (JSON.stringify(filteredCourses) !== JSON.stringify(data)) {
+
+            if (filteredCourses !== newFilteredCourses) setFilteredCourses(newFilteredCourses);
+
+            const allTags = Array.from(new Set(data.flatMap((course: CourseType) => course.tags)));
+            setTags(['Все темы', ...allTags]);
+        }
     },[data])
 
-  const handleTagToggle = (tag: string) => {
+  const handleTagToggle = useCallback((tag: string) => {
       setSelectedTag(tag);
+
       if (tag === "Все темы") {
           setFilteredCourses(data)
       } else {
-          setFilteredCourses(courses.filter(course => course.tags.includes(tag)));
+          setFilteredCourses(data.filter(course => course.tags.includes(tag)));
       }
-  };
+  }, [data])
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
