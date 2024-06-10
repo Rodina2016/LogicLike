@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './CourseList.module.css';
-import {CourseType} from "../../hooks/useCourses";
+import {CourseType} from "../../hooks/useFetchCourses";
 
 type PropsType =  {
     courses: CourseType[];
